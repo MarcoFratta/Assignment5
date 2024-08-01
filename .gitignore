@@ -1,0 +1,4 @@
+# Project exclude paths
+/EScooterService/.gradle/
+/EScooterService/build/
+/EScooterService/build/classes/java/main/

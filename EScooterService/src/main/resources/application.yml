@@ -1,0 +1,35 @@
+micronaut:
+  application:
+    name: escooter-service
+  metrics:
+    enabled: true
+    export:
+      prometheus:
+        enabled: true
+        step: PT1M
+        descriptions: true
+endpoints:
+  prometheus:
+    sensitive: false
+
+
+
+logging:
+  logstash:
+    server: "logstash:5000"
+
+elasticsearch:
+  httpHosts: "http://elasticsearch:9200"
+
+eureka:
+  instance:
+    metadataMap:
+      metrics.path: /prometheus
+      health.path: /prometheus
+      management.context-path: /prometheus
+  client:
+    registration:
+      retry-count: 10
+      retry-delay: 15s
+      enabled: true
+    defaultZone: "http://eureka-server:8761/eureka/"

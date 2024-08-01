@@ -1,0 +1,183 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    build: ./Eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - escooter-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+  api-gateway:
+    build: ./ApiGateway
+    ports:
+      - "8080:8080"
+    networks:
+      - escooter-network
+    depends_on:
+      - user-mongodb
+      - escooter-mongodb
+      - rides-mongodb
+
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  user-service:
+    build: ./UserService
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://user-mongodb:27017/users
+    networks:
+      - escooter-network
+    depends_on:
+      - user-mongodb
+      - logstash
+      - eureka-server
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  user-mongodb:
+    image: mongo:latest
+    networks:
+      - escooter-network
+    volumes:
+      - user-mongo-data:/data/db
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  escooter-service:
+    build: ./EScooterService
+    ports:
+      - "8082:8080"
+    environment:
+      - MONGODB_URI=mongodb://escooter-mongodb:27017/escooters
+    networks:
+      - escooter-network
+    depends_on:
+      - escooter-mongodb
+      - logstash
+      - eureka-server
+      - api-gateway
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  escooter-mongodb:
+    image: mongo:latest
+    networks:
+      - escooter-network
+    volumes:
+      - escooter-mongo-data:/data/db
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+
+  ride-service:
+    build: ./RideService
+    ports:
+      - "8083:8080"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://rides-mongodb:27017/rides
+    networks:
+      - escooter-network
+    depends_on:
+      - rides-mongodb
+      - eureka-server
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  rides-mongodb:
+    image: mongo:latest
+    networks:
+      - escooter-network
+    volumes:
+      - rides-mongo-data:/data/db
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  prometheus-service:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus-config.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - escooter-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    networks:
+      - escooter-network
+    ports:
+      - "3000:3000"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+    networks:
+      - escooter-network
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+
+    ports:
+      - "9200:9200"
+  logstash:
+      image: docker.elastic.co/logstash/logstash:8.14.3
+      depends_on:
+        - elasticsearch
+      networks:
+        - escooter-network
+      volumes:
+        - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+        - ./logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+      command: ["-f", "/usr/share/logstash/pipeline/logstash.conf"]
+      ports:
+        - "5044:5044"
+        - "5000:5000/udp"
+        - "5000:5000/tcp"
+        - "9600:9600"
+  kibana:
+      image: docker.elastic.co/kibana/kibana:8.14.3
+      environment:
+        ELASTICSEARCH_URl: http://elasticsearch:9200
+        ELASTICSEARCH_HOST: '["http://elasticsearch:9200"]'
+      networks:
+        - escooter-network
+      ports:
+        - "5601:5601"
+      depends_on:
+        - logstash
+networks:
+  escooter-network:
+    driver: bridge
+
+volumes:
+  user-mongo-data:
+  escooter-mongo-data:
+  rides-mongo-data:
+  elastic-data:

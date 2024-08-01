@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  user-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://users-db:27017/users
+    depends_on:
+      - mongodb
+    container_name: user-service
+
+  mongodb:
+    image: mongo:latest
+    container_name: users-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+
+
+volumes:
+  mongodb-data:

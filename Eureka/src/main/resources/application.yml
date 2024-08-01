@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: eureka-server
+server:
+  port: 8761
+eureka:
+  instance:
+    metadata-map:
+      metrics.path: /actuator/prometheus
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+logging:
+  logstash:
+    server: "logstash:5000"
+  level:
+    root: INFO
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus

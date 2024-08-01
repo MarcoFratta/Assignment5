@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/users/**
+        - id: escooter-service
+          uri: lb://escooter-service
+          predicates:
+            - Path=/api/escooters/**
+        - id: ride-service
+          uri: lb://ride-service
+          predicates:
+            - Path=/api/rides/**
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+  instance:
+    metadataMap:
+      metrics.path: /actuator/prometheus
+      health.path: /actuator/health
+      management.context-path: /actuator
+
+logging:
+  logstash:
+    server: "logstash:5000"
+  level:
+    root: INFO
+
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus

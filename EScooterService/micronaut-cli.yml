@@ -1,0 +1,9 @@
+applicationType: default
+defaultPackage: escooter.micronaut
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [app-name, data, discovery-client, discovery-eureka, micronaut-aot,
+           micrometer, micrometer-prometheus,
+           data-mongodb, gradle, http-client-test, java, java-application, junit, logback,
+  micronaut-build, micronaut-http-validation, netty-server, properties, readme, serialization-jackson, shade, spotless, static-resources, test-resources]
