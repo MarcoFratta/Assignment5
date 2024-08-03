@@ -23,7 +23,9 @@ logging:
     root: INFO
 
 
-
+#springdoc:
+#  swagger-ui:
+#    path: /swagger/users.html
 management:
   health:
     mongo:

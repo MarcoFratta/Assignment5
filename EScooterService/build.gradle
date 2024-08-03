@@ -18,6 +18,7 @@ dependencies {
     annotationProcessor("io.micronaut:micronaut-http-validation:4.3.0")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor:2.7.1")
     implementation("io.micronaut.data:micronaut-data-mongodb:4.5.0")
+    annotationProcessor("io.micronaut.openapi:micronaut-openapi")
     // https://mvnrepository.com/artifact/io.micronaut/micronaut-jackson-databind
     runtimeOnly("io.micronaut:micronaut-jackson-databind:4.5.3")
     implementation("io.micronaut:micronaut-inject")
@@ -38,6 +39,8 @@ dependencies {
     implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
     implementation "io.micronaut:micronaut-runtime"
     runtimeOnly('org.slf4j:log4j-over-slf4j:2.0.13')
+    compileOnly("io.micronaut.openapi:micronaut-openapi-annotations")
+
     implementation "io.micronaut.micrometer:micronaut-micrometer-core"
     // micrometer-registry-statsd also pulls in micrometer-core so included above to verbose example
     implementation "io.micronaut.micrometer:micronaut-micrometer-registry-statsd"

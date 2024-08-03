@@ -25,7 +25,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-tracing-bridge-brave")
-    implementation("io.micrometer:micrometer-tracing-bridge-brave")
+    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
     // https://mvnrepository.com/artifact/com.github.piomin/logstash-logging-spring-boot-starter
     implementation("com.github.piomin:logstash-logging-spring-boot-starter:1.2.2.RELEASE")
     // https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder

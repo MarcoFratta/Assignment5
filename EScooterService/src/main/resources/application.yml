@@ -1,4 +1,9 @@
 micronaut:
+  router:
+    static-resources:
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
   application:
     name: escooter-service
   metrics:
@@ -20,6 +25,8 @@ logging:
 
 elasticsearch:
   httpHosts: "http://elasticsearch:9200"
+
+
 
 eureka:
   instance:
