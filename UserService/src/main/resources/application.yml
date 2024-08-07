@@ -1,4 +1,6 @@
 spring:
+  zipkin:
+    base-url: http://zipkin:9411
   data:
     mongodb:
       uri: ${MONGODB_URI}
@@ -27,6 +29,14 @@ logging:
 #  swagger-ui:
 #    path: /swagger/users.html
 management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
+
   health:
     mongo:
       enabled: true

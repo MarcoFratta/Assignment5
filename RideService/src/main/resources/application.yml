@@ -1,4 +1,6 @@
 spring:
+  zipkin:
+    base-url: http://zipkin:9411
   data:
     mongodb:
       uri: ${MONGODB_URI}
@@ -24,6 +26,13 @@ logging:
   level:
     root: INFO
 management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
   endpoint:
     health:
       show-details: always

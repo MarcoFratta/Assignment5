@@ -1,6 +1,8 @@
 spring:
   application:
     name: gateway-service
+  zipkin:
+    base-url: http://zipkin:9411
   cloud:
     gateway:
       routes:
@@ -23,6 +25,8 @@ spring:
 server:
   port: 8080
 
+
+
 eureka:
   client:
     service-url:
@@ -41,6 +45,13 @@ logging:
 
 
 management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
   endpoint:
     health:
       show-details: always

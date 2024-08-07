@@ -30,6 +30,8 @@ dependencies {
     implementation("com.github.piomin:logstash-logging-spring-boot-starter:1.2.2.RELEASE")
     // https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+    //zipkin
+    implementation("io.zipkin.reporter2:zipkin-reporter-brave")
 
 
 

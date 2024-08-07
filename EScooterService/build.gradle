@@ -42,8 +42,9 @@ dependencies {
     compileOnly("io.micronaut.openapi:micronaut-openapi-annotations")
 
     implementation "io.micronaut.micrometer:micronaut-micrometer-core"
-    // micrometer-registry-statsd also pulls in micrometer-core so included above to verbose example
-    implementation "io.micronaut.micrometer:micronaut-micrometer-registry-statsd"
+
+    runtimeOnly("io.zipkin.brave:brave-instrumentation-http")
+    implementation("io.micronaut.tracing:micronaut-tracing-brave-http")
     // Also required to enable endpoint
     implementation "io.micronaut:micronaut-management"
 

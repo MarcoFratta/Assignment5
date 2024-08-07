@@ -52,6 +52,7 @@ several auxiliary services for API management, service discovery, and monitoring
         - **Elasticsearch**: Stores logs for search and analysis.
         - **Logstash**: Aggregates and processes log data before indexing in Elasticsearch.
         - **Kibana**: Provides a user interface for log analysis and visualization.
+    - **Zipkin**: Distributed tracing system for monitoring and troubleshooting microservices.
 ### OpenAPI Specifications
 The OpenAPI specifications for each microservice are available at the following URLs:
 
@@ -90,5 +91,7 @@ You can download them from [Docker's official website](https://www.docker.com/).
 - *Prometheus*: http://localhost:9090
 - *Grafana*: http://localhost:3000
 - *Kibana*: http://localhost:5601
+- *Zipkin*: http://localhost:9411
+
 
 

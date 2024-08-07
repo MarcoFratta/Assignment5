@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.run.BootRun
+
 plugins {
     java
     id("org.springframework.boot") version "3.2.0"
@@ -6,7 +8,7 @@ plugins {
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
-
+extra["springCloudVersion"] = "2023.0.2"
 java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
@@ -31,9 +33,11 @@ dependencies {
     implementation("com.github.piomin:logstash-logging-spring-boot-starter:1.2.2.RELEASE")
     // https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+    //zipkin
+    implementation("io.zipkin.reporter2:zipkin-reporter-brave")
 
 }
-extra["springCloudVersion"] = "2023.0.2"
+
 
 springBoot {
     // Customize the mainClassName if needed (replace 'com.example.Application' with your main class)

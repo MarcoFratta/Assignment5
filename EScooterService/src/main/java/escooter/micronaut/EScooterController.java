@@ -40,7 +40,7 @@ class EScooterController {
 
     @Get
     Iterable<EScooterInfo> list() {
-        logger.info("Get all e-scooters requested");
+        this.logger.info("Get all e-scooters requested");
         return this.service.list();
     }
 
@@ -48,20 +48,20 @@ class EScooterController {
     @Status(HttpStatus.CREATED)
 
     EScooter save(@NonNull @Valid @Body final EScooterInfo eScooter) {
-        //this.logger.info("Add new e-scooter request - {}", eScooter.toString());
+        this.logger.info("Add new e-scooter request - {}", eScooter.toString());
         return this.service.save(eScooter);
     }
 
     @Put("/{id}")
     EScooter update(@PathVariable final String id, @NonNull @Valid @Body final EScooterInfo eScooter) {
-        //this.logger.info("Update e-scooter request - {}", eScooter.toString());
+        this.logger.info("Update e-scooter request - {}", eScooter.toString());
         eScooter.setId(id);
         return this.service.save(eScooter);
     }
 
     @Get("/{id}")
     Optional<EScooterInfo> find(@PathVariable final String id) {
-        //this.logger.info("Get e-scooter request - {}", id);
+        this.logger.info("Get e-scooter request - {}", id);
         return this.service.find(id);
     }
 
